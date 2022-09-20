@@ -2,22 +2,21 @@
 
 This is a project for KodKollektivet members to create their own steam like client for hosting their own video games.
 
-- [Moist 💦](#moist-)
-  - [Join in! ❤️](#join-in-️)
-    - [Contributing to the project: How To](#contributing-to-the-project-how-to)
-    - [Branching Guidelines](#branching-guidelines)
-    - [Code Review Guidelines](#code-review-guidelines)
-    - [Git Workflow Summary](#git-workflow-summary)
-  - [Client 🕹️](#client-️)
-    - [Development language](#development-language)
-    - [Login page](#login-page)
-    - [Games list page](#games-list-page)
-    - [Game page](#game-page)
-    - [Friends](#friends)
-  - [Server 💾](#server-)
-    - [Users](#users)
-    - [Games](#games)
-    - [High scores](#high-scores)
+- [Join in! ❤️](#join-in-️)
+  - [Contributing to the project: How To](#contributing-to-the-project-how-to)
+  - [Branching Guidelines](#branching-guidelines)
+  - [Code Review Guidelines](#code-review-guidelines)
+  - [Git Workflow Summary](#git-workflow-summary)
+- [Client 🕹️](#client-️)
+  - [Development language](#development-language)
+  - [Login page](#login-page)
+  - [Games list page](#games-list-page)
+  - [Game page](#game-page)
+  - [Friends](#friends)
+- [Server 💾](#server-)
+  - [Users](#users)
+  - [Games](#games)
+  - [High scores](#high-scores)
 
 ## Join in! ❤️
 
