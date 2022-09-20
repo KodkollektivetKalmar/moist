@@ -148,9 +148,27 @@ samples, guidance on mobile development, and a full API reference.
 
 ### Games list page
 
+![games-list-installed](design/game-page-filtered-by-installed.png)
+
+_Early design mockup_
+
+![games-list-uninstalled](design/game-page-filtered-by-uninstalled.png)
+
+_Early design mockup_
+
 ### Game page
 
+![game-screen](design/game-screen.png)
+
+_Early design mockup_
+
 ### Friends
+
+Web sockets are good! 👍
+
+![friends](design/friends-list-and-chat.png)
+
+_Early design mockup_
 
 #### Friend list
 
@@ -166,14 +184,14 @@ To be able to host games we'll need a server side to the application. We also wa
 
 ### Users
 
-Users credentials will have to be saved for users to be able to sign in. This requires good security for proper password management.
+Users credentials will have to be saved in a database for users to be able to sign in. This requires good security for proper password management.
 
 ### Games
 
-Installation files for games have to be hosted by us for moist users to be able to download the games.
+Installation files for games have to be hosted by us for moist users to be able to download the games. 
 
 ### High scores
 
-We want every game to have its own score board where KodKollektivet members can duke it out for the highest poition on the boards.
+We want every game to have its own score board where KodKollektivet members can duke it out for the highest position on the boards.
 
 For this we'll have to develop some kind of API for game developers to post their high scores to our server.
