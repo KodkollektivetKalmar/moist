@@ -22,7 +22,7 @@ This is a project for KodKollektivet members to create their own steam like clie
 
 The project will be developed by any member who wants to join in. If you're interested in participating, contact @krukle, or someone else in the board of KodKollektivet Kalmar.
 
-Some quick ideas are in the `design` directory. As you'll quickly realise, I'm no UI designer. If you're one, please do join in and help us with the design of the application!
+Some ideas for the project are in the `design` directory. As you'll quickly realise, I'm no designer. If you're one, please do join in and help us with the design of the application!
 
 ### Contributing to the project: How To
 
