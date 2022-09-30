@@ -1,8 +1,30 @@
 import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => LoginState();
+}
+
+class CreateAccount extends StatefulWidget {
+  const CreateAccount({super.key});
+
+  @override
+  State<CreateAccount> createState() => CreateAccountState();
+}
+
+class LoginState extends State<Login> {
+  final tbxUsername = TextEditingController();
+  final tbxPassword = TextEditingController();
+
+  @override
+  void dispose() {
+    tbxUsername.dispose();
+    tbxPassword.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +33,15 @@ class Login extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: 300,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: TextField(
+                    controller: tbxUsername,
                     autocorrect: false,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Username',
                     ),
@@ -30,6 +54,7 @@ class Login extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
+                    controller: tbxPassword,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
@@ -60,9 +85,9 @@ class Login extends StatelessWidget {
                   ),
                 ),
               ),
-               Padding(
-                 padding: const EdgeInsets.all(4.0),
-                 child: MouseRegion(
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
                     onTap: () {
@@ -78,8 +103,8 @@ class Login extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
               ),
-               ),
               const Spacer(),
               Padding(
                 padding:
@@ -88,7 +113,10 @@ class Login extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(150, 50),
                       textStyle: const TextStyle(fontSize: 20)),
-                  onPressed: () {runApp(const MyApp());},
+                  onPressed: () {
+                    print(tbxPassword.text);
+                    runApp(const MyApp());
+                  },
                   child: const Text('Login'),
                 ),
               ),
@@ -101,23 +129,35 @@ class Login extends StatelessWidget {
   }
 }
 
-class CreateAccount extends StatelessWidget {
-  const CreateAccount({super.key});
+class CreateAccountState extends State<CreateAccount> {
+  final tbxUsername = TextEditingController();
+  final tbxPassword = TextEditingController();
+  final tbxRepeat = TextEditingController();
+
+  @override
+  void dispose() {
+    tbxUsername.dispose();
+    tbxPassword.dispose();
+    tbxRepeat.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-     return MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
           child: Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: 300,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: TextField(
+                    controller: tbxUsername,
                     autocorrect: false,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Username',
                     ),
@@ -130,6 +170,7 @@ class CreateAccount extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
+                    controller: tbxPassword,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
@@ -146,6 +187,7 @@ class CreateAccount extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: TextFormField(
+                    controller: tbxRepeat,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
@@ -163,8 +205,17 @@ class CreateAccount extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(150, 50),
-                      textStyle: const TextStyle(fontSize: 17)),
-                  onPressed: () {runApp(const MyApp());},
+                      textStyle: const TextStyle(fontSize: 16)),
+                  onPressed: () {
+                    if (tbxPassword.text == tbxRepeat.text &&
+                        tbxPassword.text.length > 6) {
+                      runApp(const MyApp());
+                    } else if (tbxPassword.text.length <= 6) {
+                      print("Password is shorter than 6 characters");
+                    } else if (tbxPassword.text != tbxRepeat.text) {
+                      print("Passwords don't match");
+                    }
+                  },
                   child: const Text('Create Account'),
                 ),
               ),
