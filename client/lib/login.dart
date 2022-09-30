@@ -18,6 +18,7 @@ class CreateAccount extends StatefulWidget {
 class LoginState extends State<Login> {
   final tbxUsername = TextEditingController();
   final tbxPassword = TextEditingController();
+  String message = "";
 
   @override
   void dispose() {
@@ -26,10 +27,17 @@ class LoginState extends State<Login> {
     super.dispose();
   }
 
+  bool isLoginValid(String username, String password) {
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Login"),
+        ),
         body: Center(
           child: Column(
             children: [
@@ -63,6 +71,15 @@ class LoginState extends State<Login> {
                       labelText: 'Password',
                     ),
                   ),
+                ),
+              ),
+              Text.rich(
+                TextSpan(
+                  style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.red,
+                  ),
+                  text: message,
                 ),
               ),
               Padding(
@@ -114,8 +131,15 @@ class LoginState extends State<Login> {
                       fixedSize: const Size(150, 50),
                       textStyle: const TextStyle(fontSize: 20)),
                   onPressed: () {
-                    print(tbxPassword.text);
-                    runApp(const MyApp());
+                    if (isLoginValid(tbxUsername.text, tbxPassword.text)) {
+                      runApp(const MyApp());
+                      dispose();
+                    } else {
+                      message = "Invalid login details";
+                      setState(() {
+                        
+                      });
+                    }
                   },
                   child: const Text('Login'),
                 ),
@@ -133,6 +157,7 @@ class CreateAccountState extends State<CreateAccount> {
   final tbxUsername = TextEditingController();
   final tbxPassword = TextEditingController();
   final tbxRepeat = TextEditingController();
+  String message = "";
 
   @override
   void dispose() {
@@ -142,10 +167,17 @@ class CreateAccountState extends State<CreateAccount> {
     super.dispose();
   }
 
+  bool usernameAvailable() {
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Create account"),
+        ),
         body: Center(
           child: Column(
             children: [
@@ -198,6 +230,15 @@ class CreateAccountState extends State<CreateAccount> {
                   ),
                 ),
               ),
+              Text.rich(
+                TextSpan(
+                  style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.red,
+                  ),
+                  text: message,
+                ),
+              ),
               const Spacer(),
               Padding(
                 padding:
@@ -208,13 +249,17 @@ class CreateAccountState extends State<CreateAccount> {
                       textStyle: const TextStyle(fontSize: 16)),
                   onPressed: () {
                     if (tbxPassword.text == tbxRepeat.text &&
-                        tbxPassword.text.length > 6) {
+                        tbxPassword.text.length > 6 && usernameAvailable()) {
                       runApp(const MyApp());
+                      dispose();
                     } else if (tbxPassword.text.length <= 6) {
-                      print("Password is shorter than 6 characters");
+                      message = "Password must be longer than 6 characters";
                     } else if (tbxPassword.text != tbxRepeat.text) {
-                      print("Passwords don't match");
+                      message = "Passwords don't match";
                     }
+                    setState(() {
+                        
+                      });
                   },
                   child: const Text('Create Account'),
                 ),
