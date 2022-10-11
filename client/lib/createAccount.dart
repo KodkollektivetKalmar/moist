@@ -1,37 +1,30 @@
-import 'package:client/main.dart';
 import 'package:flutter/material.dart';
-import 'package:client/createAccount.dart';
+import 'package:client/main.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class CreateAccount extends StatefulWidget {
+  const CreateAccount({super.key});
 
   @override
-  State<Login> createState() => LoginState();
+  State<CreateAccount> createState() => CreateAccountState();
 }
 
-class LoginState extends State<Login> {
+class CreateAccountState extends State<CreateAccount> {
   final tbxUsername = TextEditingController();
   final tbxPassword = TextEditingController();
+  final tbxRepeat = TextEditingController();
+  final tbxEmail = TextEditingController();
   String message = "";
 
   @override
   void dispose() {
     tbxUsername.dispose();
     tbxPassword.dispose();
+    tbxRepeat.dispose();
     super.dispose();
   }
 
-  bool isLoginValid(String username, String password) {
+  bool usernameAvailable() {
     return true;
-  }
-
-  void requestLogin() {
-    if (isLoginValid(tbxUsername.text, tbxPassword.text)) {
-      runApp(const MyApp());
-    } else {
-      message = "Invalid login details";
-      setState(() {});
-    }
   }
 
   @override
@@ -39,7 +32,7 @@ class LoginState extends State<Login> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Login"),
+          title: const Text("Create account"),
         ),
         body: Center(
           child: Column(
@@ -51,11 +44,7 @@ class LoginState extends State<Login> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: TextFormField(
                     controller: tbxUsername,
-                    onFieldSubmitted: (value) {
-                      requestLogin();
-                    },
                     autocorrect: false,
-                    enableSuggestions: false,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Username',
@@ -69,16 +58,44 @@ class LoginState extends State<Login> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
+                    controller: tbxEmail,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'E-mail',
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 300,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: TextFormField(
                     controller: tbxPassword,
-                    onFieldSubmitted: (value) {
-                      requestLogin();
-                    },
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Password',
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 300,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    controller: tbxRepeat,
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Repeat Password',
                     ),
                   ),
                 ),
@@ -92,46 +109,6 @@ class LoginState extends State<Login> {
                   text: message,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      runApp(const CreateAccount());
-                    },
-                    child: const Text.rich(
-                      TextSpan(
-                        style: TextStyle(
-                            fontSize: 12,
-                            // color: Colors.blue,
-                            decoration: TextDecoration.underline),
-                        text: "Create account",
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Glömt lösen noob");
-                    },
-                    child: const Text.rich(
-                      TextSpan(
-                        style: TextStyle(
-                            fontSize: 12,
-                            // color: Colors.blue,
-                            decoration: TextDecoration.underline),
-                        text: "Forgot password?",
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               const Spacer(),
               Padding(
                 padding:
@@ -139,11 +116,20 @@ class LoginState extends State<Login> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(150, 50),
-                      textStyle: const TextStyle(fontSize: 20)),
+                      textStyle: const TextStyle(fontSize: 16)),
                   onPressed: () {
-                    requestLogin();
+                    if (tbxPassword.text == tbxRepeat.text &&
+                        tbxPassword.text.length > 6 &&
+                        usernameAvailable()) {
+                      runApp(const MyApp());
+                    } else if (tbxPassword.text.length <= 6) {
+                      message = "Password must be longer than 6 characters";
+                    } else if (tbxPassword.text != tbxRepeat.text) {
+                      message = "Passwords don't match";
+                    }
+                    setState(() {});
                   },
-                  child: const Text('Login'),
+                  child: const Text('Create Account'),
                 ),
               ),
             ],
