@@ -1,5 +1,5 @@
+import 'package:client/login.dart';
 import 'package:flutter/material.dart';
-import 'package:client/main.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
@@ -13,7 +13,9 @@ class CreateAccountState extends State<CreateAccount> {
   final tbxPassword = TextEditingController();
   final tbxRepeat = TextEditingController();
   final tbxEmail = TextEditingController();
-  String message = "";
+  String msgUsername = "";
+  String msgEmail = "";
+  String msgPassword = "";
 
   @override
   void dispose() {
@@ -27,6 +29,52 @@ class CreateAccountState extends State<CreateAccount> {
     return true;
   }
 
+  void requestAccountCreation() {
+    if (tbxPassword.text == tbxRepeat.text &&
+        tbxPassword.text.length > 6 &&
+        usernameAvailable()) {
+      runApp(const Login());
+    } else if (tbxPassword.text.length <= 6) {
+      msgPassword = "Password must be longer than 6 characters";
+    } else if (tbxPassword.text != tbxRepeat.text) {
+      msgPassword = "Passwords don't match";
+    }
+    setState(() {});
+  }
+
+  Padding textField(String label, final controller, bool isPassword) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      child: SizedBox(
+        width: 300,
+        child: TextFormField(
+          onFieldSubmitted: (value) {
+            requestAccountCreation();
+          },
+          controller: controller,
+          obscureText: isPassword,
+          autocorrect: false,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: label,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Text errorMessage(String msg) {
+    return Text.rich(
+      TextSpan(
+        style: const TextStyle(
+          fontSize: 12,
+          color: Colors.red,
+        ),
+        text: msg,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,78 +85,13 @@ class CreateAccountState extends State<CreateAccount> {
         body: Center(
           child: Column(
             children: [
-              SizedBox(
-                width: 300,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: TextFormField(
-                    controller: tbxUsername,
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Username',
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    controller: tbxEmail,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'E-mail',
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: TextFormField(
-                    controller: tbxPassword,
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    controller: tbxRepeat,
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Repeat Password',
-                    ),
-                  ),
-                ),
-              ),
-              Text.rich(
-                TextSpan(
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.red,
-                  ),
-                  text: message,
-                ),
-              ),
+              textField("Username", tbxUsername, false),
+              errorMessage(msgUsername),
+              textField("E-mail", tbxEmail, false),
+              errorMessage(msgEmail),
+              textField("Password", tbxPassword, true),
+              textField("Repeat password", tbxRepeat, true),
+              errorMessage(msgPassword),
               const Spacer(),
               Padding(
                 padding:
@@ -118,16 +101,7 @@ class CreateAccountState extends State<CreateAccount> {
                       fixedSize: const Size(150, 50),
                       textStyle: const TextStyle(fontSize: 16)),
                   onPressed: () {
-                    if (tbxPassword.text == tbxRepeat.text &&
-                        tbxPassword.text.length > 6 &&
-                        usernameAvailable()) {
-                      runApp(const MyApp());
-                    } else if (tbxPassword.text.length <= 6) {
-                      message = "Password must be longer than 6 characters";
-                    } else if (tbxPassword.text != tbxRepeat.text) {
-                      message = "Passwords don't match";
-                    }
-                    setState(() {});
+                    requestAccountCreation();
                   },
                   child: const Text('Create Account'),
                 ),

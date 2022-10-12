@@ -1,6 +1,7 @@
 import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:client/createAccount.dart';
+import 'package:client/forgotPassword.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,7 +13,8 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   final tbxUsername = TextEditingController();
   final tbxPassword = TextEditingController();
-  String message = "";
+  String msgUsername = "";
+  String msgPassword = "";
 
   @override
   void dispose() {
@@ -22,16 +24,77 @@ class LoginState extends State<Login> {
   }
 
   bool isLoginValid(String username, String password) {
-    return true;
+    return false;
+  }
+
+  bool usernameExists() {
+    return false;
   }
 
   void requestLogin() {
     if (isLoginValid(tbxUsername.text, tbxPassword.text)) {
       runApp(const MyApp());
+    } else if (!usernameExists()) {
+      msgUsername = "Username doesn't exist";
     } else {
-      message = "Invalid login details";
-      setState(() {});
+      msgPassword = "Incorrect password";
     }
+    setState(() {});
+  }
+
+  Text errorMessage(String msg) {
+    return Text.rich(
+      TextSpan(
+        style: const TextStyle(
+          fontSize: 12,
+          color: Colors.red,
+        ),
+        text: msg,
+      ),
+    );
+  }
+
+  Padding textField(String label, final controller, bool isPassword) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      child: SizedBox(
+        width: 300,
+        child: TextFormField(
+          controller: controller,
+          onFieldSubmitted: (value) {
+            requestLogin();
+          },
+          obscureText: isPassword,
+          autocorrect: false,
+          enableSuggestions: false,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: label,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding link(final route, String txt) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            runApp(route);
+          },
+          child: Text.rich(
+            TextSpan(
+              style: const TextStyle(
+                  fontSize: 12, decoration: TextDecoration.underline),
+              text: txt,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -44,94 +107,12 @@ class LoginState extends State<Login> {
         body: Center(
           child: Column(
             children: [
-              SizedBox(
-                width: 300,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: TextFormField(
-                    controller: tbxUsername,
-                    onFieldSubmitted: (value) {
-                      requestLogin();
-                    },
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Username',
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    controller: tbxPassword,
-                    onFieldSubmitted: (value) {
-                      requestLogin();
-                    },
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
-                  ),
-                ),
-              ),
-              Text.rich(
-                TextSpan(
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.red,
-                  ),
-                  text: message,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      runApp(const CreateAccount());
-                    },
-                    child: const Text.rich(
-                      TextSpan(
-                        style: TextStyle(
-                            fontSize: 12,
-                            // color: Colors.blue,
-                            decoration: TextDecoration.underline),
-                        text: "Create account",
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Glömt lösen noob");
-                    },
-                    child: const Text.rich(
-                      TextSpan(
-                        style: TextStyle(
-                            fontSize: 12,
-                            // color: Colors.blue,
-                            decoration: TextDecoration.underline),
-                        text: "Forgot password?",
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              textField("Username", tbxUsername, false),
+              errorMessage(msgUsername),
+              textField("Password", tbxPassword, true),
+              errorMessage(msgPassword),
+              link(const CreateAccount(), "Create account"),
+              link(const ForgotPassword(), "Forgot password?"),
               const Spacer(),
               Padding(
                 padding:
