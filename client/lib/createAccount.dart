@@ -25,26 +25,57 @@ class CreateAccountState extends State<CreateAccount> {
     super.dispose();
   }
 
-  bool usernameAvailable() {
+  bool validUsername() {
+    if (tbxUsername.text.length < 4) {
+      msgUsername = "Username must be longer than 4 characters";
+      return false;
+    } else {
+      msgUsername = "";
+    }
+
+    return true;
+  }
+
+  bool validEmail() {
+    if (tbxEmail.text.length <= 4) {
+      msgEmail = "E-mail must be longer than 4 characters";
+      return false;
+    } else {
+      msgEmail = "";
+    }
+
+    return true;
+  }
+
+  bool validPassword() {
+    if (tbxPassword.text.length <= 6) {
+      msgPassword = "Password must be longer than 6 characters";
+      return false;
+    } else {
+      msgPassword = "";
+    }
+
+    if (tbxPassword.text != tbxRepeat.text) {
+      msgPassword = "Passwords don't match";
+      return false;
+    } else {
+      msgPassword = "";
+    }
+
     return true;
   }
 
   void requestAccountCreation() {
-    if (tbxPassword.text == tbxRepeat.text &&
-        tbxPassword.text.length > 6 &&
-        usernameAvailable()) {
+    if (validUsername() && validEmail() && validPassword()) {
       runApp(const Login());
-    } else if (tbxPassword.text.length <= 6) {
-      msgPassword = "Password must be longer than 6 characters";
-    } else if (tbxPassword.text != tbxRepeat.text) {
-      msgPassword = "Passwords don't match";
     }
+
     setState(() {});
   }
 
   Padding textField(String label, final controller, bool isPassword) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      padding: const EdgeInsets.only(top: 30),
       child: SizedBox(
         width: 300,
         child: TextFormField(
@@ -90,6 +121,9 @@ class CreateAccountState extends State<CreateAccount> {
               textField("E-mail", tbxEmail, false),
               errorMessage(msgEmail),
               textField("Password", tbxPassword, true),
+              const SizedBox(
+                height: 12,
+              ),
               textField("Repeat password", tbxRepeat, true),
               errorMessage(msgPassword),
               const Spacer(),

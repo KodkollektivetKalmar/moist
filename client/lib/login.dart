@@ -23,7 +23,7 @@ class LoginState extends State<Login> {
     super.dispose();
   }
 
-  bool isLoginValid(String username, String password) {
+  bool validLogin(String username, String password) {
     return false;
   }
 
@@ -31,12 +31,18 @@ class LoginState extends State<Login> {
     return false;
   }
 
+  bool correctPassword() {
+    return false;
+  }
+
   void requestLogin() {
-    if (isLoginValid(tbxUsername.text, tbxPassword.text)) {
+    if (validLogin(tbxUsername.text, tbxPassword.text)) {
       runApp(const MyApp());
-    } else if (!usernameExists()) {
+    }
+    if (!usernameExists()) {
       msgUsername = "Username doesn't exist";
-    } else {
+    }
+    if (!correctPassword()) {
       msgPassword = "Incorrect password";
     }
     setState(() {});
@@ -56,7 +62,7 @@ class LoginState extends State<Login> {
 
   Padding textField(String label, final controller, bool isPassword) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      padding: const EdgeInsets.only(top: 30),
       child: SizedBox(
         width: 300,
         child: TextFormField(
@@ -111,9 +117,9 @@ class LoginState extends State<Login> {
               errorMessage(msgUsername),
               textField("Password", tbxPassword, true),
               errorMessage(msgPassword),
+              const Spacer(),
               link(const CreateAccount(), "Create account"),
               link(const ForgotPassword(), "Forgot password?"),
-              const Spacer(),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 0, vertical: 20),

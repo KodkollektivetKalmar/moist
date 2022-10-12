@@ -1,6 +1,5 @@
 import 'package:client/login.dart';
 import 'package:flutter/material.dart';
-import 'package:client/main.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -10,17 +9,11 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class ForgotPasswordState extends State<ForgotPassword> {
-  final tbxUsername = TextEditingController();
-  final tbxPassword = TextEditingController();
-  final tbxRepeat = TextEditingController();
   final tbxEmail = TextEditingController();
-  String message = "";
 
   @override
   void dispose() {
-    tbxUsername.dispose();
-    tbxPassword.dispose();
-    tbxRepeat.dispose();
+    tbxEmail.dispose();
     super.dispose();
   }
 
@@ -29,13 +22,43 @@ class ForgotPasswordState extends State<ForgotPassword> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Request new password"),
+          title: const Text("Reset password"),
         ),
         body: Center(
           child: Column(
             children: [
-              TextFormField(),
-              const Text("Enter your email and we will send a new one"),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: SizedBox(
+                  width: 300,
+                  child: TextFormField(
+                    onFieldSubmitted: (value) {
+                      runApp(const Login());
+                    },
+                    controller: tbxEmail,
+                    autocorrect: false,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "E-mail",
+                    ),
+                  ),
+                ),
+              ),
+              const Text("Enter your email to reset password"),
+              const Spacer(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(150, 50),
+                      textStyle: const TextStyle(fontSize: 16)),
+                  onPressed: () {
+                    runApp(const Login());
+                  },
+                  child: const Text('Reset password'),
+                ),
+              ),
             ],
           ),
         ),
