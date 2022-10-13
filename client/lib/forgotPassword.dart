@@ -1,5 +1,6 @@
 import 'package:client/login.dart';
 import 'package:flutter/material.dart';
+import 'package:window_size/window_size.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -15,6 +16,33 @@ class ForgotPasswordState extends State<ForgotPassword> {
   void dispose() {
     tbxEmail.dispose();
     super.dispose();
+  }
+
+  Padding button(Function action, String txt) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            fixedSize: const Size(150, 50),
+            textStyle: const TextStyle(fontSize: 16)),
+        onPressed: () {
+          action();
+        },
+        child: Text(txt),
+      ),
+    );
+  }
+
+  void cancel() {
+    setWindowMinSize(const Size(700, 550));
+    setWindowMaxSize(const Size(700, 550));
+    runApp(const Login());
+  }
+
+  void resetPassword() {
+    setWindowMinSize(const Size(700, 550));
+    setWindowMaxSize(const Size(700, 550));
+    runApp(const Login());
   }
 
   @override
@@ -46,18 +74,12 @@ class ForgotPasswordState extends State<ForgotPassword> {
               ),
               const Text("Enter your email to reset password"),
               const Spacer(),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(150, 50),
-                      textStyle: const TextStyle(fontSize: 16)),
-                  onPressed: () {
-                    runApp(const Login());
-                  },
-                  child: const Text('Reset password'),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  button(cancel, "Cancel"),
+                  button(resetPassword, "Reset password"),
+                ],
               ),
             ],
           ),

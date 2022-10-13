@@ -1,5 +1,7 @@
 import 'package:client/login.dart';
+import 'package:client/main.dart';
 import 'package:flutter/material.dart';
+import 'package:window_size/window_size.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
@@ -67,7 +69,10 @@ class CreateAccountState extends State<CreateAccount> {
 
   void requestAccountCreation() {
     if (validUsername() && validEmail() && validPassword()) {
-      runApp(const Login());
+      setWindowMinSize(const Size(1600, 950));
+      setWindowMaxSize(Size.infinite);
+
+      runApp(const MyApp());
     }
 
     setState(() {});
@@ -106,6 +111,27 @@ class CreateAccountState extends State<CreateAccount> {
     );
   }
 
+  Padding button(Function action, String txt) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            fixedSize: const Size(150, 50),
+            textStyle: const TextStyle(fontSize: 16)),
+        onPressed: () {
+          action();
+        },
+        child: Text(txt),
+      ),
+    );
+  }
+
+  void cancel() {
+    setWindowMinSize(const Size(700, 550));
+    setWindowMaxSize(const Size(700, 550));
+    runApp(const Login());
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -127,18 +153,12 @@ class CreateAccountState extends State<CreateAccount> {
               textField("Repeat password", tbxRepeat, true),
               errorMessage(msgPassword),
               const Spacer(),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(150, 50),
-                      textStyle: const TextStyle(fontSize: 16)),
-                  onPressed: () {
-                    requestAccountCreation();
-                  },
-                  child: const Text('Create Account'),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  button(cancel, "Cancel"),
+                  button(requestAccountCreation, "Create Account"),
+                ],
               ),
             ],
           ),

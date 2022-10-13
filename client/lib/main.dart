@@ -1,7 +1,12 @@
 import 'package:client/login.dart';
 import 'package:flutter/material.dart';
+import 'package:window_size/window_size.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setWindowTitle("Moist");
+  setWindowMinSize(const Size(700, 550));
+  setWindowMaxSize(const Size(700, 550));
   runApp(const Login());
 }
 

@@ -2,6 +2,7 @@ import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:client/createAccount.dart';
 import 'package:client/forgotPassword.dart';
+import 'package:window_size/window_size.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -24,7 +25,7 @@ class LoginState extends State<Login> {
   }
 
   bool validLogin(String username, String password) {
-    return false;
+    return true;
   }
 
   bool usernameExists() {
@@ -37,6 +38,8 @@ class LoginState extends State<Login> {
 
   void requestLogin() {
     if (validLogin(tbxUsername.text, tbxPassword.text)) {
+      setWindowMinSize(const Size(1600, 950));
+      setWindowMaxSize(Size.infinite);
       runApp(const MyApp());
     }
     if (!usernameExists()) {
@@ -82,14 +85,14 @@ class LoginState extends State<Login> {
     );
   }
 
-  Padding link(final route, String txt) {
+  Padding link(Function action, String txt) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
           onTap: () {
-            runApp(route);
+            action();
           },
           child: Text.rich(
             TextSpan(
@@ -101,6 +104,18 @@ class LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  void createAccount() {
+    setWindowMinSize(const Size(700, 700));
+    setWindowMaxSize(const Size(700, 700));
+    runApp(const CreateAccount());
+  }
+
+  void forgotPassword() {
+    setWindowMinSize(const Size(700, 400));
+    setWindowMaxSize(const Size(700, 400));
+    runApp(const ForgotPassword());
   }
 
   @override
@@ -118,8 +133,8 @@ class LoginState extends State<Login> {
               textField("Password", tbxPassword, true),
               errorMessage(msgPassword),
               const Spacer(),
-              link(const CreateAccount(), "Create account"),
-              link(const ForgotPassword(), "Forgot password?"),
+              link(createAccount, "Create account"),
+              link(forgotPassword, "Forgot password?"),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
