@@ -17,7 +17,7 @@ class GameList extends StatelessWidget {
 			title:'Game list', 
 			home: Scaffold( 
 				appBar: AppBar(
-					title: const Text('Display games'), 
+					title: const Text('Display games'),
 				),
 				body: GridView(
 					scrollDirection: Axis.vertical,
@@ -26,22 +26,42 @@ class GameList extends StatelessWidget {
 					physics: ScrollPhysics(), 
 					padding: EdgeInsets.all(10.0),
 					gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-						crossAxisCount: 3,
-						crossAxisSpacing: 16,
-						mainAxisSpacing: 16,
+						crossAxisCount: 4,
+						crossAxisSpacing: 48,
+						mainAxisSpacing: 48,
 						),
+
 					// Creating items for the gridView form the dummylist, here we need to fetch
 					// the games from the database, when that is created //
 					children: dummy.map((e) => Container(
-						height: 50.0,
-						width: 50.0,
-						color: Colors.blueGrey,
+						height: 40.0,
+						width: 40.0,
 						alignment: Alignment.center,
-						child: Text('$e'), // Instead of toString()
-					)).toList(),
-					)
-				),
+            decoration: BoxDecoration(
+              color: Colors.blueAccent,
+              borderRadius: BorderRadius.circular(50)
+            ),
 
+            child: GridTile(
+
+              header: Text(
+                "Title",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+              ),
+
+              footer: Text("Developer",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+
+              ),
+              child: Center(
+                child: Image.asset("lib/assets/images/crucible.jpg")
+              ),
+            ),
+					)).toList(),
+				)
+			),
 		);
 	}
 }
