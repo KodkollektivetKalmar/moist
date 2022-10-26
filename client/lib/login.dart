@@ -1,8 +1,9 @@
 import 'package:client/main.dart';
 import 'package:flutter/material.dart';
-import 'package:client/createAccount.dart';
-import 'package:client/forgotPassword.dart';
+import 'package:client/create_account.dart';
+import 'package:client/forgot_password.dart';
 import 'package:window_size/window_size.dart';
+import 'package:client/server_handler.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -25,6 +26,7 @@ class LoginState extends State<Login> {
   }
 
   bool validLogin(String username, String password) {
+    postJson();
     return true;
   }
 
